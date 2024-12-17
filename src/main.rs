@@ -46,5 +46,5 @@ fn tokenize(input: &str) {
             _ => {} //others ignored for now
         }
     }
-    println!("EOF null");
+    println!("EOF  null");
 }
