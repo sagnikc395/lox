@@ -46,6 +46,13 @@ fn tokenize(input: &str) {
             //like previous , scanning braces
             '{' => println!("LEFT_BRACE {{ null"),
             '}' => println!("RIGHT_BRACE }} null"),
+            //other single characters
+            '.' => println!("DOT . null"),
+            '*' => println!("STAR * null"),
+            ',' => println!("COMMA , null"),
+            '+' => println!("PLUS + null"),
+            ';' => println!("SEMICOLON ; null"),
+            '-' => println!("MINUS - null"),
             _ => {} //others ignored for now
         }
     }
