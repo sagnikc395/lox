@@ -43,6 +43,9 @@ fn tokenize(input: &str) {
         match char {
             '(' => println!("LEFT_PAREN ( null"),
             ')' => println!("RIGHT_PAREN ) null"),
+            //like previous , scanning braces
+            '{' => println!("LEFT_BRACE {{ null"),
+            '}' => println!("RIGHT_BRACE }} null"),
             _ => {} //others ignored for now
         }
     }
