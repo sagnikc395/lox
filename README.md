@@ -1,4 +1,3 @@
 ## lox
 
-Lox interpreter and bytecode machine written in Rust.
-
+Lox interpreter in Python and bytecode interpreter in Rust.
