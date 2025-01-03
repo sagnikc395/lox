@@ -3,6 +3,8 @@ import os
 
 
 class Lox:
+    hadError: bool
+
     @staticmethod
     def main():
         try:
@@ -24,6 +26,9 @@ class Lox:
                 bytes = f.read()
             Lox.run(bytes)
 
+            if Lox.hadError:
+                os.exit(65)
+
         except Exception as e:
             print(e)
 
@@ -44,5 +49,16 @@ class Lox:
                 if line == "":
                     break
                 Lox.run(line)
+                Lox.hadError = False
+
         except Exception as e:
             print(e)
+
+    @staticmethod
+    def error(line: int, message: str):
+        Lox.report(line, "", message)
+
+    @staticmethod
+    def report(line: int, where: str, message: str):
+        print(f"[line {line}] Error {where} : {message}")
+        Lox.hadError = True
