@@ -1,6 +1,7 @@
 from token import Token
 from typing import List
 from tokentype import TokenType
+from lox import Lox
 
 
 class Scanner:
@@ -49,6 +50,28 @@ class Scanner:
                 self.addToken(Token.SEMICOLON)
             case "*":
                 self.addToken(Token.STAR)
+            case "!":
+                if self.match("="):
+                    self.addToken(Token.BANG_EQUAL)
+                else:
+                    self.addToken(Token.BANG)
+            case "=":
+                if self.match("="):
+                    self.addToken(Token.EQUAL_EQUAL)
+                else:
+                    self.addToken(Token.EQUAL)
+            case "<":
+                if self.match("<"):
+                    self.addToken(Token.LESS_EQUAL)
+                else:
+                    self.addToken(Token.LESS)
+            case ">":
+                if self.match(">"):
+                    self.addToken(Token.GREATER_EQUAL)
+                else:
+                    self.addToken(Token.GREATER)
+            case _:
+                Lox.error(self.line, "Unexpected character.")
 
     def advance(self):
         self.current += 1
@@ -57,3 +80,12 @@ class Scanner:
     def addToken(self, type: TokenType, literal: object = None):
         text = self.source[self.start, self.current]
         self.tokens.append(Token(type, text, literal, self.line))
+
+    def match(self, expected: str):
+        if self.isAtEnd():
+            return False
+        if self.source[self.current] != expected:
+            return False
+
+        self.current += 1
+        return True
