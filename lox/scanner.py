@@ -70,6 +70,15 @@ class Scanner:
                     self.addToken(Token.GREATER_EQUAL)
                 else:
                     self.addToken(Token.GREATER)
+
+            case "/":
+                # bigger lexeme as commnets begin with / also
+                if self.match("/"):
+                    while self.peek() != "\n" and not self.isAtEnd():
+                        self.advance()
+                else:
+                    self.addToken(Token.SLASH)
+
             case _:
                 Lox.error(self.line, "Unexpected character.")
 
@@ -89,3 +98,8 @@ class Scanner:
 
         self.current += 1
         return True
+
+    def peek(self):
+        if self.isAtEnd():
+            return "\0"
+        return self.source[self.current]
