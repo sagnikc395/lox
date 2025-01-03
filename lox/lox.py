@@ -1,6 +1,8 @@
 import sys
 import os
 
+from scanner import Scanner
+
 
 class Lox:
     hadError: bool
