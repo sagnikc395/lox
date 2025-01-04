@@ -70,7 +70,6 @@ class Scanner:
                     self.addToken(Token.GREATER_EQUAL)
                 else:
                     self.addToken(Token.GREATER)
-
             case "/":
                 # bigger lexeme as commnets begin with / also
                 if self.match("/"):
@@ -78,7 +77,6 @@ class Scanner:
                         self.advance()
                 else:
                     self.addToken(Token.SLASH)
-
             # case ' ':
             # case '\r':
             # case '\t':
@@ -88,7 +86,12 @@ class Scanner:
             case '"':
                 self.string()
             case _:
-                Lox.error(self.line, "Unexpected character.")
+                if self.isDigit(c):
+                    self.number()
+                elif self.isAlpha(c):
+                    self.identifier()
+                else:
+                    Lox.error(self.line, "Unexpected character.")
 
     def advance(self):
         self.current += 1
@@ -127,3 +130,38 @@ class Scanner:
         ## trim surrounding quotes
         value = self.source[self.start + 1, self.current - 1]
         self.addToken(Token.STRING, value)
+
+    def isDigit(self, c: str):
+        return c >= "0" and c <= "9"
+
+    def number(self):
+        while self.isDigit(self.peek()):
+            self.advance()
+
+        # looking for a fractional part
+        if self.peek() == "." and self.isDigit(self.peekNext()):
+            # consume .
+            self.advance()
+
+        while self.isDigit(self.peek()):
+            self.advance()
+
+        self.addToken(float(self.source[self.start, self.current]))
+
+    def peekNext(self):
+        if (self.current + 1) >= len(self.source):
+            return "\0"
+        return self.source[self.current + 1]
+
+    def identifier(self):
+        while self.isAlphanumeric(self.peek()):
+            self.advance()
+
+        self.addToken(Token.IDENTIFIER)
+
+    def isAlpha(self, c):
+        return (c >= "a" and c <= "z") or (c >= "A" and c <= "Z") and (c == "_")
+
+    def isAlpanumeric(self, c):
+        return self.isAlpha(c) or self.isDigit(c)
+
