@@ -1,0 +1,8 @@
+venv/
+target/
+Cargo.toml
+Cargo.lock 
+.python-version
+ruff.toml 
+LICENSE 
+README.md
