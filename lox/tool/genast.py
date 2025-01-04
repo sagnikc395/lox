@@ -15,6 +15,11 @@ class GenerateAST:
                 writer.write(f"class {baseName}(ABC):\n")
                 writer.write("\t")
 
+                for type in types:
+                    className = type.split(":")[0]
+                    fields = type.split(":")[1]
+                    self.defineType(writer, baseName, className, fields)
+
         except Exception as e:
             print(e)
 
