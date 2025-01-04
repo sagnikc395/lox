@@ -3,6 +3,26 @@ from typing import List
 from tokentype import TokenType
 from lox import Lox
 
+# our mapping of keywords
+keywords = {
+    "and": Token.AND,
+    "class": Token.CLASS,
+    "else": Token.ELSE,
+    "false": Token.FALSE,
+    "for": Token.FOR,
+    "fun": Token.FUN,
+    "if": Token.IF,
+    "nil": Token.NIL,
+    "or": Token.OR,
+    "print": Token.PRINT,
+    "return": Token.RETURN,
+    "super": Token.SUPER,
+    "this": Token.THIS,
+    "true": Token.TRUE,
+    "var": Token.VAR,
+    "while": Token.WHILE,
+}
+
 
 class Scanner:
     tokens: List[Token]
@@ -157,11 +177,14 @@ class Scanner:
         while self.isAlphanumeric(self.peek()):
             self.advance()
 
-        self.addToken(Token.IDENTIFIER)
+        text = self.source[self.start, self.current]
+        type = keywords.get(text)
+        if not type:  # for none case
+            type = Token.IDENTIFIER
+        self.addToken(type)
 
     def isAlpha(self, c):
         return (c >= "a" and c <= "z") or (c >= "A" and c <= "Z") and (c == "_")
 
     def isAlpanumeric(self, c):
         return self.isAlpha(c) or self.isDigit(c)
-
