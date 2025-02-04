@@ -3,6 +3,8 @@ use std::fs;
 use std::io;
 use std::io::Write;
 
+use lox::Token;
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 3 {
